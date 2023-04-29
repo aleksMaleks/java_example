@@ -9,8 +9,8 @@ public class ContactDeletionTests extends TestBase {
 
     @Test
     public void test2() throws Exception {
-        app.selectContact();
-        app.deleteSelectedContact();
+        app.getContactHelper().selectContact();
+        app.getContactHelper().deleteSelectedContact();
 //        driver.get("http://localhost/addressbook/");
     }
 
