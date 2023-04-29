@@ -1,6 +1,5 @@
 package addressbook.appmanager;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -19,12 +18,12 @@ public class ApplicationManager {
 
     public void init() {
         wd = new ChromeDriver();
-        baseUrl = "https://www.google.com/";
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         groupHelper = new GroupHelper(wd);
         contactHelper = new ContactHelper(wd);
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
+        wd.get("http://localhost/addressbook/index.php");
         sessionHelper.login("admin", "secret");
     }
 
@@ -37,12 +36,6 @@ public class ApplicationManager {
             fail(verificationErrorString);
         }
     }
-
-    public void gotoHomePage() {
-//        driver.findElement(By.linkText("home page")).click();
-        wd.findElement(By.linkText("home")).click();
-    }
-
 
     public GroupHelper getGroupHelper() {
         return groupHelper;

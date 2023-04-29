@@ -7,41 +7,44 @@ import org.openqa.selenium.WebDriver;
 
 import static org.testng.Assert.assertTrue;
 
-public class ContactHelper {
-    private WebDriver wd;
+public class ContactHelper extends HelperBase {
 
     public ContactHelper(WebDriver wd) {
-        this.wd = wd;
+        super(wd);
     }
 
     public void fillContactForm(ContactData contactData) {
-        wd.findElement(By.name("firstname")).click();
-        wd.findElement(By.name("firstname")).clear();
-        wd.findElement(By.name("firstname")).sendKeys(contactData.getFirstName());
-        wd.findElement(By.name("firstname")).click();
-        wd.findElement(By.name("middlename")).clear();
-        wd.findElement(By.name("middlename")).sendKeys(contactData.getMiddleName());
-        wd.findElement(By.name("firstname")).click();
-        wd.findElement(By.name("lastname")).clear();
-        wd.findElement(By.name("lastname")).sendKeys(contactData.getLastName());
+        type(By.name("firstname"), contactData.getFirstName());
+        type(By.name("middlename"), contactData.getMiddleName());
+        type(By.name("lastname"), contactData.getLastName());
     }
+
+//    private void type(By locator, String text) {
+//        click(locator);
+//        wd.findElement(locator).clear();
+//        wd.findElement(locator).sendKeys(text);
+//    }
 
     public void submitContactCreation() {
-        wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
+        click(By.xpath("//div[@id='content']/form/input[21]"));
     }
 
+//    private void click(By locator) {
+//        wd.findElement(locator).click();
+//    }
+
     public void initContactCreation() {
-        wd.findElement(By.linkText("add new")).click();
+        click(By.linkText("add new"));
     }
 
     public void selectContact() {
 //        driver.findElement(By.id("1")).click();
-        wd.findElement(By.name("selected[]")).click();
+        click(By.name("selected[]"));
 
     }
 
     public void deleteSelectedContact() {
-        wd.findElement(By.xpath("//input[@value='Delete']")).click();
+        click(By.xpath("//input[@value='Delete']"));
         assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
         wd.get("http://localhost/addressbook/delete.php?part=1;");
     }
