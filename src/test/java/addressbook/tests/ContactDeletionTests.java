@@ -8,7 +8,8 @@ public class ContactDeletionTests extends TestBase {
 //    private WebDriver driver;
 
     @Test
-    public void test2() throws Exception {
+    public void testContactDeletion() throws Exception {
+        app.getNavigationHelper().gotoHomePage();
         app.getContactHelper().selectContact();
         app.getContactHelper().deleteSelectedContact();
 //        driver.get("http://localhost/addressbook/");
