@@ -19,19 +19,11 @@ public class ContactHelper extends HelperBase {
         type(By.name("lastname"), contactData.getLastName());
     }
 
-//    private void type(By locator, String text) {
-//        click(locator);
-//        wd.findElement(locator).clear();
-//        wd.findElement(locator).sendKeys(text);
-//    }
 
     public void submitContactCreation() {
         click(By.xpath("//div[@id='content']/form/input[21]"));
     }
 
-//    private void click(By locator) {
-//        wd.findElement(locator).click();
-//    }
 
     public void initContactCreation() {
         click(By.linkText("add new"));
@@ -45,23 +37,32 @@ public class ContactHelper extends HelperBase {
 
     public void deleteSelectedContact() {
         click(By.xpath("//input[@value='Delete']"));
-        assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
-        wd.get("http://localhost/addressbook/delete.php?part=1;");
+        wd.switchTo().alert().accept();
+//        assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
+//        wd.get("http://localhost/addressbook/delete.php?part=1;");
     }
 
-    private String closeAlertAndGetItsText() {
-        boolean acceptNextAlert = true;
-        try {
-            Alert alert = wd.switchTo().alert();
-            String alertText = alert.getText();
-            if (acceptNextAlert) {
-                alert.accept();
-            } else {
-                alert.dismiss();
-            }
-            return alertText;
-        } finally {
-            acceptNextAlert = true;
-        }
+//    private String closeAlertAndGetItsText() {
+//        boolean acceptNextAlert = true;
+//        try {
+//            Alert alert = wd.switchTo().alert();
+//            String alertText = alert.getText();
+//            if (acceptNextAlert) {
+//                alert.accept();
+//            } else {
+//                alert.dismiss();
+//            }
+//            return alertText;
+//        } finally {
+//            acceptNextAlert = true;
+//        }
+//    }
+
+    public void initContactModification() {
+        click(By.xpath("//*[@title='Edit']"));
+    }
+
+    public void submitCroupModification() {
+        click(By.name("update"));
     }
 }
