@@ -2,16 +2,31 @@ package addressbook.tests;
 
 
 import addressbook.model.GroupData;
+import org.testng.Assert;
 import org.testng.annotations.*;
+
+import java.util.HashSet;
+import java.util.List;
 
 public class GroupCreationTest extends TestBase {
 
     @Test
-    public void testGroupCreation() throws Exception {
+    public void testGroupCreation() {
         app.getNavigationHelper().gotoGroupPage();
-        app.getGroupHelper().initGroupCreation();
-        app.getGroupHelper().fillGroupForm(new GroupData("test1", null, null));
-        app.getGroupHelper().submitGroupCreation();
-        app.getGroupHelper().returnToGroupPage();
+        List<GroupData> before = app.getGroupHelper().getGroupList();
+        GroupData group = new GroupData("test1", null, null);
+        app.getGroupHelper().createGroup(group);
+        List<GroupData> after = app.getGroupHelper().getGroupList();
+        Assert.assertEquals(after.size(), before.size() + 1);
+
+        int max = 0;
+        for (GroupData g : after) {
+            if (g.getId() > max) {
+                max = g.getId();
+            }
+        }
+        group.setId(max);
+        before.add(group);
+        Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
     }
 }

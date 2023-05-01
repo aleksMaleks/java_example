@@ -3,8 +3,12 @@ package addressbook.appmanager;
 import addressbook.model.ContactData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
@@ -36,40 +40,56 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void selectContact() {
-//        driver.findElement(By.id("1")).click();
-        click(By.name("selected[]"));
-
+    public void selectContact(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void deleteSelectedContact() {
         click(By.xpath("//input[@value='Delete']"));
         wd.switchTo().alert().accept();
-//        assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
-//        wd.get("http://localhost/addressbook/delete.php?part=1;");
     }
 
-//    private String closeAlertAndGetItsText() {
-//        boolean acceptNextAlert = true;
-//        try {
-//            Alert alert = wd.switchTo().alert();
-//            String alertText = alert.getText();
-//            if (acceptNextAlert) {
-//                alert.accept();
-//            } else {
-//                alert.dismiss();
-//            }
-//            return alertText;
-//        } finally {
-//            acceptNextAlert = true;
-//        }
-//    }
 
-    public void initContactModification() {
-        click(By.xpath("//*[@title='Edit']"));
+    public void initContactModification(int index) {
+        wd.findElements(By.xpath("//*[@title='Edit']")).get(index).click();
     }
 
     public void submitCroupModification() {
         click(By.name("update"));
+    }
+
+    public void createContact(ContactData contact, boolean b) {
+        initContactCreation();
+        fillContactForm
+                (new ContactData("FirstName", "MiddleName", "LastName", "test1"), true);
+        submitContactCreation();
+        returnHomePage();
+    }
+
+    public void returnHomePage() {
+        click(By.linkText("home page"));
+    }
+
+    public boolean isThereAContact() {
+        return isElementPresent(By.name("selected[]"));
+    }
+
+    public int getContactCount() {
+        return wd.findElements(By.name("selected[]")).size();
+    }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements =
+                wd.findElements(By.xpath("//tr[@name='entry']"));
+        for (WebElement element : elements) {
+            String lastName = element.findElement(By.xpath("./td[2]")).getText();
+            String firstName = element.findElement(By.xpath("./td[3]")).getText();
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            ContactData contact =
+                    new ContactData(id, firstName, null, lastName, null);
+            contacts.add(contact);
+        }
+        return contacts;
     }
 }
