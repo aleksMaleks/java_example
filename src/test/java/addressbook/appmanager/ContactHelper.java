@@ -7,10 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import static org.testng.Assert.assertTrue;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -35,13 +34,12 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//div[@id='content']/form/input[21]"));
     }
 
-
     public void initContactCreation() {
         click(By.linkText("add new"));
     }
 
-    public void selectContact(int index) {
-        wd.findElements(By.name("selected[]")).get(index).click();
+    public void selectContactById(int id) {
+        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
     public void deleteSelectedContact() {
@@ -50,8 +48,8 @@ public class ContactHelper extends HelperBase {
     }
 
 
-    public void initContactModification(int index) {
-        wd.findElements(By.xpath("//*[@title='Edit']")).get(index).click();
+    public void initContactModificationBiId(int id) {
+        wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click(); //a[href="edit.php?id=93"]
     }
 
     public void submitCroupModification() {
@@ -67,15 +65,15 @@ public class ContactHelper extends HelperBase {
         returnHomePage();
     }
 
-    public void modify(int index, ContactData contact) {
-        initContactModification(index);
+    public void modify(ContactData contact) {
+        initContactModificationBiId(contact.getId());
         fillContactForm(contact, false);
         submitCroupModification();
         returnHomePage();
     }
 
-    public void delete(int index) {
-        selectContact(index);
+    public void delete(ContactData contact) {
+        selectContactById(contact.getId());
         deleteSelectedContact();
     }
 
@@ -91,8 +89,8 @@ public class ContactHelper extends HelperBase {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<ContactData> list() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
+    public Set<ContactData> all() {
+        Set<ContactData> contacts = new HashSet<>();
         List<WebElement> elements =
                 wd.findElements(By.xpath("//tr[@name='entry']"));
         for (WebElement element : elements) {
