@@ -2,11 +2,10 @@ package addressbook.tests;
 
 
 import addressbook.model.ContactData;
-import addressbook.model.GroupData;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreationTest extends TestBase {
@@ -14,25 +13,21 @@ public class ContactCreationTest extends TestBase {
 
     @Test
     public void testContactCreation() {
-        app.getNavigationHelper().gotoHomePage();
-        List<ContactData> before = app.getContactHelper().getContactList();
-        ContactData contact = new ContactData( "FirstName",
-                "MiddleName", "LastName", "test1");
-        app.getContactHelper().createContact
+        app.goTo().homePage();
+        List<ContactData> before = app.contact().list();
+        ContactData contact = new ContactData().withFirstName("FirstName").withMiddleName("MiddleName")
+                .withLastName("LastName").withGroup("test1");
+        app.contact().create
                 (contact,
                         true);
-        List<ContactData> after = app.getContactHelper().getContactList();
+        List<ContactData> after = app.contact().list();
         Assert.assertEquals(after.size(), before.size() + 1);
 
-        int max = 0;
-        for (ContactData c : after) {
-            if (c.getId() > max) {
-                max = c.getId();
-            }
-        }
-        contact.setId(max);
         before.add(contact);
-        Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
+        Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
+        before.sort(byId);
+        after.sort(byId);
+        Assert.assertEquals(before, after);
     }
 
 }

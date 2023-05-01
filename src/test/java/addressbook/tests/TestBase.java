@@ -2,22 +2,20 @@ package addressbook.tests;
 
 import addressbook.appmanager.ApplicationManager;
 import org.openqa.selenium.remote.Browser;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 
 public class TestBase {
 
-    protected final ApplicationManager app = new ApplicationManager(Browser.CHROME);
+    protected static final ApplicationManager app = new ApplicationManager(Browser.CHROME);
 
-    @BeforeClass(alwaysRun = true)
-    public void setUp() throws Exception {
+    @BeforeSuite(alwaysRun = true)
+    public void setUp() {
         app.init();
     }
 
-    @AfterClass(alwaysRun = true)
-    public void tearDown() throws Exception {
+    @AfterSuite(alwaysRun = true)
+    public void tearDown() {
         app.stop();
     }
-
-
 }

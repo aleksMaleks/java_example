@@ -3,30 +3,36 @@ package addressbook.model;
 import java.util.Objects;
 
 public class ContactData {
-    private int id;
-    private final String firstName;
-    private final String middleName;
-    private final String lastName;
-    private final String group;
+    private int id = Integer.MAX_VALUE;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String group;
 
-    public ContactData(String firstName, String middleName, String lastName, String group) {
-        this.id = 0;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.group = group;
+
+    public ContactData withId(int id) {
+        this.id = id;
+        return this;
     }
 
-    public ContactData(int id, String firstName, String middleName, String lastName, String group) {
-        this.id = id;
+    public ContactData withFirstName(String firstName) {
         this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.group = group;
+        return this;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public ContactData withMiddleName(String middleName) {
+        this.middleName = middleName;
+        return this;
+    }
+
+    public ContactData withLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+
+    public ContactData withGroup(String group) {
+        this.group = group;
+        return this;
     }
 
     public int getId() {
@@ -63,11 +69,11 @@ public class ContactData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return Objects.equals(id, that.id) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName);
+        return Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName);
+        return Objects.hash(firstName, lastName);
     }
 }
