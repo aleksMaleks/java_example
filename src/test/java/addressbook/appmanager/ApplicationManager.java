@@ -19,27 +19,25 @@ public class ApplicationManager {
     private StringBuffer verificationErrors = new StringBuffer();
     private Browser browser;
 
-    public ApplicationManager(Browser browser) {
 
+    public ApplicationManager(Browser browser) {
         this.browser = browser;
     }
 
     public void init() {
         if (browser.equals(Browser.FIREFOX)) {
-            wd = new FirefoxDriver();
+            wd = new FirefoxDriver(); // инициализация переменной wd
         } else if (browser.equals(Browser.CHROME)) {
             wd = new ChromeDriver();
         }
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-        groupHelper = new GroupHelper(wd);
+        groupHelper = new GroupHelper(wd); //создаем класс GroupHelper и передаем в него ссылку на драйвер wd
         contactHelper = new ContactHelper(wd);
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
         wd.get("http://localhost/addressbook/index.php");
         sessionHelper.login("admin", "secret");
     }
-
-
 
     public void stop() {
         wd.quit();
