@@ -2,6 +2,7 @@ package addressbook.appmanager;
 
 import addressbook.model.GroupData;
 import addressbook.model.Groups;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -67,6 +68,7 @@ public class GroupHelper extends HelperBase {
     }
 
 
+    @Step("Удаление")
     public void delete(GroupData group) {
         selectGroupById(group.getId());
         deleteSelectedGroups();

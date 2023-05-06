@@ -3,6 +3,8 @@
 .DS_Store
 gradle/
 build/
+.allure/
+target/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -21,4 +23,6 @@ gradle-app.setting
 gradlew
 gradlew.bat
 settings.gradle
+
+
 
