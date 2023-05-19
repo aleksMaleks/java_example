@@ -7,7 +7,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import org.junit.jupiter.api.DisplayName;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

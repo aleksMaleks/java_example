@@ -56,7 +56,7 @@ public class ContactCreationTest extends TestBase {
         }
     }
 
-    @Test//(dataProvider = "validGroupsFromJson")
+    @Test(description = "Тест создания Контакта")//(dataProvider = "validGroupsFromJson")
     public void testContactCreation() {
         app.goTo().homePage();
         Contacts before = app.contact().all();
